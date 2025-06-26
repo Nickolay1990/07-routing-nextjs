@@ -1,4 +1,4 @@
-import NotePreview from '@/components/NotePreview/NotePreview';
+import NotePreviewClient from '@/app/@modal/(.)notes/[id]/NotePreview.client';
 import { fetchNoteById } from '@/lib/api';
 import { Note } from '@/types/note';
 
@@ -6,10 +6,10 @@ type NotePreviewModalProps = {
 	params: Promise<{ id: string }>;
 };
 
-const NotePreviewModal = async ({ params }: NotePreviewModalProps) => {
+const NotePreview = async ({ params }: NotePreviewModalProps) => {
 	const { id } = await params;
 	const note: Note = await fetchNoteById(Number(id));
 
-	return <NotePreview note={note} />;
+	return <NotePreviewClient note={note} />;
 };
-export default NotePreviewModal;
+export default NotePreview;

@@ -1,15 +1,15 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import Modal from '../Modal/Modal';
+import Modal from '../../../../components/Modal/Modal';
 import React from 'react';
 import { Note } from '@/types/note';
 import css from './NotePreview.module.css';
 
-type NotePreviewProps = {
+type NotePreviewClientProps = {
 	note: Note;
 };
 
-const NotePreview = ({ note }: NotePreviewProps) => {
+const NotePreviewClient = ({ note }: NotePreviewClientProps) => {
 	const router = useRouter();
 	const closeModal = () => {
 		router.back();
@@ -36,4 +36,4 @@ const NotePreview = ({ note }: NotePreviewProps) => {
 	);
 };
 
-export default NotePreview;
+export default NotePreviewClient;
