@@ -18,16 +18,18 @@ interface SearchParams {
 	page: number;
 	perPage: number;
 	search?: string;
+	tag?: string;
 }
 
 axios.defaults.baseURL = 'https://notehub-public.goit.study/api';
 axios.defaults.headers.common['Authorization'] = `Bearer ${API_KEY}`;
 
-export async function fetchNotes(search: string, page: number): Promise<NotesResponse> {
+export async function fetchNotes(search: string, page: number, tag?: string): Promise<NotesResponse> {
 	const perPage = 12;
 	const params: SearchParams = { page, perPage };
 
 	if (search) params.search = search;
+	if (tag) params.tag = tag;
 
 	const res = await axios.get<NotesResponse>('/notes', {
 		params,

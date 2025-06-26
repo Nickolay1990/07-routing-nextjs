@@ -5,10 +5,11 @@ import NoteList from '@/components/NoteList/NoteList';
 import { fetchNotes } from '@/lib/api';
 import { useEffect, useState } from 'react';
 import Pagination from '@/components/Pagination/Pagination';
-import NoteModal from '@/components/NoteModal/NoteModal';
+import Modal from '@/components/Modal/Modal';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import { useDebounce } from 'use-debounce';
 import { Note } from '@/types/note';
+import NoteForm from '@/components/NoteForm/NoteForm';
 
 type NotesClientProps = {
 	query: string;
@@ -17,17 +18,18 @@ type NotesClientProps = {
 		notes: Note[];
 		totalPages: number;
 	};
+	tag: string;
 };
 
-function NotesClient({ query, page, initialData }: NotesClientProps) {
+function NotesClient({ query, page, initialData, tag }: NotesClientProps) {
 	const [currentPage, setCurrentPage] = useState(page);
 	const [isModalOpen, setIsOpenModal] = useState(false);
 	const [searchQuery, setSearchQuery] = useState(query);
 	const [debouncedText] = useDebounce(searchQuery, 300);
 
 	const { data, isSuccess, isError, error } = useQuery({
-		queryKey: ['notes', debouncedText, currentPage],
-		queryFn: () => fetchNotes(debouncedText, currentPage),
+		queryKey: ['notes', debouncedText, currentPage, tag],
+		queryFn: () => fetchNotes(debouncedText, currentPage, tag),
 		placeholderData: keepPreviousData,
 		initialData: debouncedText === query && currentPage === page ? initialData : undefined,
 		refetchOnMount: false,
@@ -67,7 +69,11 @@ function NotesClient({ query, page, initialData }: NotesClientProps) {
 				</button>
 			</header>
 			{isSuccess && data.notes.length > 0 && <NoteList notes={data.notes} />}
-			{isModalOpen && <NoteModal onClose={() => setIsOpenModal(false)} />}
+			{isModalOpen && (
+				<Modal onClose={() => setIsOpenModal(false)}>
+					<NoteForm onClose={() => setIsOpenModal(false)} />
+				</Modal>
+			)}
 		</div>
 	);
 }
