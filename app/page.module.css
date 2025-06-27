@@ -34,3 +34,19 @@
 	margin: 0 auto;
 	padding: 100px 0;
 }
+
+.errorMessage {
+	text-align: center;
+	color: orange;
+	padding: 15px 0;
+}
+
+.loadMessage {
+	text-align: center;
+	color: greenyellow;
+	padding: 15px 0;
+}
+
+.errorDiv {
+	width: 100%;
+}
